@@ -1,49 +1,60 @@
-import tkinter as tk
-from tkinter import messagebox
-import random
-import string
+from tkinter import *
 
-# Function to generate a random password
-def generate_password():
-    length = 12  # Set the desired length of the password
-    characters = string.ascii_letters + string.digits + string.punctuation
-    password = ''.join(random.choice(characters) for _ in range(length))
-    password_entry.delete(0, tk.END)  # Clear previous entry
-    password_entry.insert(tk.END, password)
+root = Tk()
+root.title("Calculator")
+root.geometry("570x600+100+200")
+root.resizable(False,False)
+root.configure(bg= "#17171b")
 
-# Function to validate login credentials
-def login():
-    username = username_entry.get()
-    password = password_entry.get()
-    # Add your validation logic here (e.g., checking against a stored username and password)
+equation = ""
 
-    if username == "your_username" and password == "your_password":
-        messagebox.showinfo("Success", "Login Successful!")
-        # Add code to open the password vault or perform other actions
-    else:
-        messagebox.showerror("Error", "Invalid username or password!")
+def clear():
+    global  equation
+    equation = ""
+    result_display.config(text=equation)
 
-# Create the main window
-window = tk.Tk()
-window.title("Password Vault")
+def show(value):
+    global  equation
+    equation += value
+    result_display.config(text = equation)
 
-# Create and position login form elements
-username_label = tk.Label(window, text="Username:")
-username_label.pack()
-username_entry = tk.Entry(window)
-username_entry.pack()
+def calculate():
+    global equation
+    result = ""
+    if equation != "":
+        try:
+            result = eval(equation)
+        except:
+            result = "Error"
+            equation = ""
+    result_display.config(text=result)
 
-password_label = tk.Label(window, text="Password:")
-password_label.pack()
-password_entry = tk.Entry(window, show="*")
-password_entry.pack()
 
-login_button = tk.Button(window, text="Login", command=login)
-login_button.pack()
+result_display = Label(root,width=25,height=2,text="",font=("arial",30))
+result_display.pack()
 
-# Create and position password generation button
-generate_password_button = tk.Button(window, text="Generate Password", command=generate_password)
-generate_password_button.pack()
+Button(root, text="C", width = 5, height= 1, font= ("arial",30, "bold"), fg = "#fff",bg="#3697f5", command=lambda : clear()).place(x = 10, y = 100)
+Button(root, text="%", width = 5, height= 1, font= ("arial",30, "bold"), fg = "#fff",bg="#2a2d36", command=lambda : show("%")).place(x = 150, y = 100)
+Button(root, text="/", width = 5, height= 1, font= ("arial",30, "bold"), fg = "#fff",bg="#2a2d36", command=lambda : show("/")).place(x = 290, y = 100)
+Button(root, text="x", width = 5, height= 1, font= ("arial",30, "bold"), fg = "#fff",bg="#2a2d36", command=lambda : show("*")).place(x = 430, y = 100)
 
-# Start the Tkinter event loop
-window.mainloop()
+Button(root, text="7", width = 5, height= 1, font= ("arial",30, "bold"), fg = "#fff",bg="#2a2d36", command=lambda : show("7")).place(x = 10, y = 200)
+Button(root, text="8", width = 5, height= 1, font= ("arial",30, "bold"), fg = "#fff",bg="#2a2d36", command=lambda : show("8")).place(x = 150, y = 200)
+Button(root, text="9", width = 5, height= 1, font= ("arial",30, "bold"), fg = "#fff",bg="#2a2d36", command=lambda : show("9")).place(x = 290, y = 200)
+Button(root, text="-", width = 5, height= 1, font= ("arial",30, "bold"), fg = "#fff",bg="#2a2d36", command=lambda : show("-")).place(x = 430, y = 200)
+
+Button(root, text="4", width = 5, height= 1, font= ("arial",30, "bold"), fg = "#fff",bg="#2a2d36", command=lambda : show("4")).place(x = 10, y = 300)
+Button(root, text="5", width = 5, height= 1, font= ("arial",30, "bold"), fg = "#fff",bg="#2a2d36", command=lambda : show("5")).place(x = 150, y = 300)
+Button(root, text="6", width = 5, height= 1, font= ("arial",30, "bold"), fg = "#fff",bg="#2a2d36", command=lambda : show("6")).place(x = 290, y = 300)
+Button(root, text="+", width = 5, height= 1, font= ("arial",30, "bold"), fg = "#fff",bg="#2a2d36", command=lambda : show("+")).place(x = 430, y = 300)
+
+Button(root, text="1", width = 5, height= 1, font= ("arial",30, "bold"), fg = "#fff",bg="#2a2d36", command=lambda : show("1")).place(x = 10, y = 400)
+Button(root, text="2", width = 5, height= 1, font= ("arial",30, "bold"), fg = "#fff",bg="#2a2d36", command=lambda : show("2")).place(x = 150, y = 400)
+Button(root, text="3", width = 5, height= 1, font= ("arial",30, "bold"), fg = "#fff",bg="#2a2d36", command=lambda : show("3")).place(x = 290, y = 400)
+
+Button(root, text="0", width = 11, height= 1, font= ("arial",30, "bold"), fg = "#fff",bg="#2a2d36", command=lambda : show("0")).place(x = 10, y = 500)
+Button(root, text=".", width = 5, height= 1, font= ("arial",30, "bold"), fg = "#fff",bg="#3697f5", command=lambda : show(".")).place(x = 290, y = 500)
+Button(root, text="=", width = 5, height= 3, font= ("arial",30, "bold"), fg = "#fff",bg="#fe9073", command=lambda : calculate()).place(x = 430, y = 400)
+
+root.mainloop()
+
